@@ -1,0 +1,12 @@
+body {
+    font-family: 'Source Code Pro', monospace;
+    padding: 20px;
+}
+
+
+
+.main {
+    margin-left: 25%;
+    width: 25%;
+    padding: 10px;
+}
