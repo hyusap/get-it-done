@@ -4,9 +4,15 @@ body {
 }
 
 
-
 .main {
-    margin-left: 25%;
+    margin: auto;
     width: 25%;
     padding: 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .main {
+        padding: 50px 10px;
+        width: 75%;
+    }
 }
