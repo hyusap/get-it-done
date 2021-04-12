@@ -12,10 +12,10 @@ class database:
         except Error as e:
             print(f"The error '{e}' occurred")
 
-    def execute(self, query):
+    def execute(self, *args):
         cursor = self.connection.cursor()
         try:
-            cursor.execute(query)
+            cursor.execute(*args)
             self.connection.commit()
             print("Query executed successfully")
         except Error as e:
@@ -39,3 +39,9 @@ def db_read(*args):
     data = db.read(*args)
     db.close()
     return data
+
+
+def db_execute(*args):
+    db = database('database/main.db')
+    db.execute(*args)
+    db.close()

@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+    <script src="/static/scripts/assignments.js"></script>
+    <div class="main">
+        <div class="list-group">
+            {% for i in data %}
+                <div class="card" id="{{ i[4] }}">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            {{ i[0] }}
+                        </h3>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            {{ i[1] }}
+                        </h6>
+                        <p class="card-text">
+                            {{ i[2] }}
+                        </p>
+                        <a href="{{ i[3] }}" class="card-link">
+                            {{ i[3] }}
+                        </a>
+                        <br>
+                        <button class="btn btn-outline-success btn-block" onclick="done({{ i[4] }})">
+                            Done!
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="btn btn-outline-primary btn-block toggle-work-button" onclick="show()">
+            Show Completed Work
+        </button>
+        <a class="create-item-button btn btn-outline-danger btn-block" href="/create">
+            Create Item
+        </a>
+        <script>
+            $('.create-item-button')[0].href = '/create/item?class_id=' + window.location.href.split('/')[4]
+        </script>
+    </div>
+
+{% endblock %}

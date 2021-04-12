@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+    <div class="main">
+        <h4>Admin</h4>
+        <br>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="token-input">
+                    Token:
+                </label>
+                <input name="token-input" type="text" id="token-input" autocomplete="disabled" class="form-control" placeholder="AAAA-BBBB-CCCC-DDDD">
+            </div>
+            <button class="btn btn-danger btn-block" type="submit">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}
