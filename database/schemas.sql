@@ -23,3 +23,15 @@ create table classes (
     FOREIGN KEY (course_id) REFERENCES courses(id),
     FOREIGN KEY (teacher_id) REFERENCES teachers(id)
 );
+
+create table work (
+    id INTEGER,
+    class_id INTEGER,
+    created_on DATE DEFAULT CURRENT_TIMESTAMP,
+    due_by DATE DEFAULT CURRENT_TIMESTAMP,
+    name TEXT,
+    description TEXT,
+    url TEXT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (class_id) references classes(id)
+);

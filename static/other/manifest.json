@@ -1,0 +1,17 @@
+{
+  "short_name": "Get it done!",
+  "name": "Work manager",
+  "icons": [
+    {
+      "src": "/static/placeholder-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/?source=pwa",
+  "background_color": "#dc3545",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#dc3545",
+  "description": "An open-source, student-coded, crowd-sourced homework compiler"
+}

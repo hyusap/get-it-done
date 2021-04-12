@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+    <div class="main">
+        <h4 class="work-title">
+            Create Item:
+        </h4>
+        <div class="d-flex justify-content-center flex-column">
+            <a href="/create/course" class="btn btn-outline-danger btn-block">
+                Course
+            </a>
+            <a href="/create/class" class="btn btn-outline-danger btn-block">
+                Class
+            </a>
+            <a href="/create/item" class="btn btn-outline-danger btn-block">
+                Item
+            </a>
+            <a href="/create/teacher" class="btn btn-outline-danger btn-block">
+                Teacher
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

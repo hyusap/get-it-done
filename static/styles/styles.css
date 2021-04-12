@@ -1,0 +1,62 @@
+/*All pages*/
+
+body {
+    font-family: 'Source Code Pro', monospace;
+    padding: 20px;
+}
+
+
+.main {
+    margin: auto;
+    width: 25%;
+    padding: 10px;
+}
+
+@media screen and (max-width: 800px) {
+    .main {
+        padding: 50px 10px;
+        width: 75%;
+    }
+}
+
+/* Work Pages */
+
+.work-title {
+    transition: opacity 1s;
+}
+
+.card {
+    margin: 10px 0;
+    transition: background-color 1s;
+    transition: opacity 1s;
+}
+
+.card:hover {
+    background-color: #d4d4d4;
+}
+
+.card-text {
+    margin-bottom: 5px;
+}
+
+.card-link {
+    color: #dc3545;
+}
+
+.card button {
+    margin: 10px 0;
+}
+
+.toggle-work-button {
+    margin: 10px 0;
+}
+
+/* Navigation Pages */
+
+.approve-item-button {
+    margin: 10px;
+}
+
+.create-item-button {
+    margin-top: 25px;
+}

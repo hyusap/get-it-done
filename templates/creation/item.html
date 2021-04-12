@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+    <div class="main">
+        <h4 class="work-title">
+            Create Item:
+        </h4>
+
+        <form action="/create/item" method="post">
+            <input type="text" name="class_id" id="class_id" hidden>
+            <script>
+                const urlParams = new URLSearchParams(window.location.search);
+                document.getElementById('class_id').value = urlParams.get('class_id')
+            </script>
+            <div class="form-group">
+                <label for="name">
+                    Name:
+                </label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="ALEKS">
+            </div>
+            <div class="form-group">
+                <label for="description">
+                    Description:
+                </label>
+                <input type="text" name="description" id="description" class="form-control" placeholder="Finish Weekly Aleks">
+            </div>
+            <div class="form-group">
+                <label for="url">
+                    URL:
+                </label>
+                <input type="url" name="url" id="url" class="form-control" placeholder="https://aleks.com">
+            </div>
+            <div class="form-group">
+                <label for="date">
+                    Date:
+                </label>
+                <input type="date" name="date" id="date" class="form-control" placeholder="https://aleks.com">
+            </div>
+            <button class="btn btn-danger" type="submit">
+                Submit
+            </button>
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+    <div class="main">
+        <h4 class="work-title">
+            Create Class:
+        </h4>
+        <form action="/create/class" method="post">
+            <div class="form-group">
+                <label for="teacher">
+                    Teacher:
+                </label>
+                <select id="teacher" name="teacher" class="form-control">
+                    {% for i in teachers %}
+                        <option value="{{ i[0] }}">
+                            {{ i[1] }} {{ i[2] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="period">
+                    Period:
+                </label>
+                <select id="period" name="period" class="form-control">
+                    {% for i in range(1, 5) %}
+                        <option value="{{ i }}">
+                            {{ i }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="course">
+                    Course:
+                </label>
+                <select id="course" name="course" class="form-control">
+                    {% for i in courses %}
+                        <option value="{{ i[0] }}">
+                            {{ i[1] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn btn-danger" type="submit">
+                Submit
+            </button>
+        </form>
+    </div>
+
+{% endblock %}
