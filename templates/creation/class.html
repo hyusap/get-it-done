@@ -16,8 +16,8 @@
                 </label>
                 <select id="teacher" name="teacher" class="form-control">
                     {% for i in teachers %}
-                        <option value="{{ i[0] }}">
-                            {{ i[1] }} {{ i[2] }}
+                        <option value="{{ i.id }}">
+                            {{ i.first_name }} {{ i.last_name }}
                         </option>
                     {% endfor %}
                 </select>
@@ -40,8 +40,8 @@
                 </label>
                 <select id="course" name="course" class="form-control">
                     {% for i in courses %}
-                        <option value="{{ i[0] }}">
-                            {{ i[1] }}
+                        <option value="{{ i.id }}">
+                            {{ i.name }}
                         </option>
                     {% endfor %}
                 </select>

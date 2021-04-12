@@ -1,6 +1,8 @@
 from peewee import *
 import datetime
 
+
+# db = SqliteDatabase('test.db')
 db = SqliteDatabase('database/test.db')
 
 
@@ -17,7 +19,7 @@ class Topics(BaseModel):
 class Courses(BaseModel):
     name = TextField()
     plaintext = TextField()
-    topic_id = ForeignKeyField(Topics)
+    topic = ForeignKeyField(Topics)
     approved = BooleanField(default=False)
 
 
@@ -27,14 +29,14 @@ class Teachers(BaseModel):
 
 
 class Classes(BaseModel):
-    course_id = ForeignKeyField(Courses)
-    teacher_id = ForeignKeyField(Teachers)
+    course = ForeignKeyField(Courses)
+    teacher = ForeignKeyField(Teachers)
     period = IntegerField()
     approved = BooleanField(default=False)
 
 
 class Work(BaseModel):
-    class_id = ForeignKeyField(Classes)
+    from_class = ForeignKeyField(Classes)
     created_on = DateField(default=datetime.datetime.now())
     due_by = DateField(default=datetime.datetime.now())
     name = TextField()
@@ -45,3 +47,5 @@ class Work(BaseModel):
 if __name__ == '__main__':
     db.connect()
     db.create_tables([Topics, Courses, Teachers, Classes, Work])
+    Topics.create(name='Math', plaintext='math')
+    Topics.create(name='English', plaintext='english')
