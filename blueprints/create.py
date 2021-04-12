@@ -1,5 +1,14 @@
 from flask import Blueprint, request, render_template, flash, redirect
-from database.sql import db_read, db_execute
+# from database.sql import db_read, db_execute
+
+
+def db_read(*args):
+    return 'hey'
+
+
+def db_execute(*args):
+    return 'hey'
+
 
 create = Blueprint('create', __name__)
 

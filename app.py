@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect
-from database.sql import db_read
+from database.sql import Work
 
 from blueprints.navigation import navigation
 from blueprints.create import create
@@ -21,12 +21,7 @@ def index():
 
 @app.route('/classes/<class_id>')
 def classes(class_id):
-    data = db_read(
-        """ select name, strftime('%m-%d-%Y', due_by), description, url, id from work
-                where class_id = ?
-                order by due_by;""",
-        [class_id]
-    )
+    data = Work.select().where(Work.class_id == class_id).order_by(Work.due_by)
     print(data)
     return render_template('navigation/classes.html', data=data)
 

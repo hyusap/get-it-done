@@ -1,47 +1,47 @@
-import sqlite3
-from sqlite3 import Error
+from peewee import *
+import datetime
+
+db = SqliteDatabase('database/test.db')
 
 
-class database:
-    connection = None
-
-    def __init__(self, path='database/main.db'):
-        try:
-            self.connection = sqlite3.connect(path)
-            print("Connection to SQLite DB successful")
-        except Error as e:
-            print(f"The error '{e}' occurred")
-
-    def execute(self, *args):
-        cursor = self.connection.cursor()
-        try:
-            cursor.execute(*args)
-            self.connection.commit()
-            print("Query executed successfully")
-        except Error as e:
-            print(f"The error '{e}' occurred")
-
-    def read(self, *args):
-        cursor = self.connection.cursor()
-        try:
-            cursor.execute(*args)
-            result = cursor.fetchall()
-            return result
-        except Error as e:
-            print(f"The error '{e}' occurred")
-
-    def close(self):
-        self.connection.close()
+class BaseModel(Model):
+    class Meta:
+        database = db
 
 
-def db_read(*args):
-    db = database('database/main.db')
-    data = db.read(*args)
-    db.close()
-    return data
+class Topics(BaseModel):
+    name = TextField()
+    plaintext = TextField()
 
 
-def db_execute(*args):
-    db = database('database/main.db')
-    db.execute(*args)
-    db.close()
+class Courses(BaseModel):
+    name = TextField()
+    plaintext = TextField()
+    topic_id = ForeignKeyField(Topics)
+    approved = BooleanField(default=False)
+
+
+class Teachers(BaseModel):
+    first_name = TextField()
+    last_name = TextField()
+
+
+class Classes(BaseModel):
+    course_id = ForeignKeyField(Courses)
+    teacher_id = ForeignKeyField(Teachers)
+    period = IntegerField()
+    approved = BooleanField(default=False)
+
+
+class Work(BaseModel):
+    class_id = ForeignKeyField(Classes)
+    created_on = DateField(default=datetime.datetime.now())
+    due_by = DateField(default=datetime.datetime.now())
+    name = TextField()
+    description = TextField()
+    url = TextField()
+
+
+if __name__ == '__main__':
+    db.connect()
+    db.create_tables([Topics, Courses, Teachers, Classes, Work])
