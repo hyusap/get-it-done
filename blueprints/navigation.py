@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template
-from database.sql import db_read
+# from database.sql import db_read
 
+
+def db_read(*args):
+    return 'hey'
 
 navigation = Blueprint('navigation', __name__)
 

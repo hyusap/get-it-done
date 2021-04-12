@@ -1,10 +1,16 @@
 from flask import Blueprint, render_template, redirect, url_for, session
-from database.sql import db_read, db_execute
 from config import config
 from functools import wraps
 
 admin = Blueprint('admin', __name__)
 
+
+def db_read(*args):
+    return 'hey'
+
+
+def db_execute(*args):
+    return 'hey'
 
 def admin_only(function):
     @wraps(function)
