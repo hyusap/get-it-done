@@ -28,6 +28,8 @@ def classes(class_id):
 
 @app.route('/admin-token', methods=['GET', 'POST'])
 def admintoken():
+    if session.get('admin') == config.admin_token:
+        return redirect('/admin')
     if request.method == 'POST':
         session['admin'] = request.form.get('token-input')
         print(session['admin'])

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, session
 from config import config
 from functools import wraps
+from database.sql import Topics, Courses, Teachers, Classes
 
 admin = Blueprint('admin', __name__)
 
@@ -11,6 +12,7 @@ def db_read(*args):
 
 def db_execute(*args):
     return 'hey'
+
 
 def admin_only(function):
     @wraps(function)
@@ -25,19 +27,14 @@ def admin_only(function):
 @admin.route('/')
 @admin_only
 def home():
-    data = db_read('select name, plaintext from topics')
+    data = Topics.select()
     return render_template('admin/home.html', data=data)
 
 
 @admin.route('/<topic>')
 @admin_only
 def topics(topic):
-    data = db_read(
-        """ select courses.name, t.plaintext, courses.plaintext, courses.approved, courses.id, t.name from courses
-                join topics t on t.id = courses.topic_id
-                where t.plaintext = ?;""",
-        [topic]
-    )
+    data = Courses.select().join(Topics).where(Courses.topic.plaintext == topic)
     print(data)
     return render_template('admin/topics.html', data=data, topic=topic)
 
@@ -45,14 +42,12 @@ def topics(topic):
 @admin.route('/<topic>/<course>')
 @admin_only
 def courses(topic, course):
-    data = db_read(
-        """ select t.first_name, t.last_name, classes.period, classes.id, classes.approved, t2.name, c.name from classes
-                join teachers t on t.id = classes.teacher_id
-                join courses c on c.id = classes.course_id
-                join topics t2 on t2.id = c.topic_id
-                where t2.plaintext = ? and c.plaintext = ?""",
-        [topic, course]
-    )
+    data = (Classes.select()
+            .join(Teachers)
+            .join(Courses)
+            .join(Topics)
+            .where(Classes.course.topic.plaintext == topic and Classes.course.plaintext == course))
+
     print(data)
     return render_template('admin/courses.html', data=data, topic=topic, course=course)
 
@@ -61,9 +56,11 @@ def courses(topic, course):
 @admin_only
 def approve_course(action, course_id, redirect_topic):
     if action == 'approve':
-        db_execute('update courses set approved = true where id = ?;', [course_id])
+        c = Courses.get_by_id(course_id)
+        c.approved = True
+        c.save()
     elif action == 'decline':
-        db_execute('delete from courses where id = ?;', [course_id])
+        Courses.delete_by_id(course_id)
     return redirect(url_for('admin.topics', topic=redirect_topic))
 
 
@@ -71,7 +68,9 @@ def approve_course(action, course_id, redirect_topic):
 @admin_only
 def approve_class(action, class_id, redirect_topic, redirect_course):
     if action == 'approve':
-        db_execute('update classes set approved = true where id = ?;', [class_id])
+        c = Classes.get_by_id(class_id)
+        c.approved = True
+        c.save()
     elif action == 'decline':
-        db_execute('delete from classes where id = ?;', [class_id])
+        Classes.delete_by_id(class_id)
     return redirect(url_for('admin.courses', topic=redirect_topic, course=redirect_course))

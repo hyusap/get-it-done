@@ -6,6 +6,17 @@
 
 {% block body %}
     <div class="main">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/admin">home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin/{{ topic }}">{{ topic }}</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <a href="/admin/{{ topic }}/{{ course }}">{{ course }}</a>
+            </li>
+        </ol>
         <h4>Classes</h4>
         <div class="list-group">
             {% for i in data %}
