@@ -1,47 +1,56 @@
-import sqlite3
-from sqlite3 import Error
+from peewee import *
+import datetime
+import os
+
+db_name = 'test.db'
+db_exists = False
+if os.path.exists('database/data/' + db_name):
+    db_exists = True
+
+db = SqliteDatabase('database/data/' + db_name)
 
 
-class database:
-    connection = None
-
-    def __init__(self, path='database/main.db'):
-        try:
-            self.connection = sqlite3.connect(path)
-            print("Connection to SQLite DB successful")
-        except Error as e:
-            print(f"The error '{e}' occurred")
-
-    def execute(self, *args):
-        cursor = self.connection.cursor()
-        try:
-            cursor.execute(*args)
-            self.connection.commit()
-            print("Query executed successfully")
-        except Error as e:
-            print(f"The error '{e}' occurred")
-
-    def read(self, *args):
-        cursor = self.connection.cursor()
-        try:
-            cursor.execute(*args)
-            result = cursor.fetchall()
-            return result
-        except Error as e:
-            print(f"The error '{e}' occurred")
-
-    def close(self):
-        self.connection.close()
+class BaseModel(Model):
+    class Meta:
+        database = db
 
 
-def db_read(*args):
-    db = database('database/main.db')
-    data = db.read(*args)
-    db.close()
-    return data
+class Topics(BaseModel):
+    name = TextField()
+    plaintext = TextField()
 
 
-def db_execute(*args):
-    db = database('database/main.db')
-    db.execute(*args)
-    db.close()
+class Courses(BaseModel):
+    name = TextField()
+    plaintext = TextField()
+    topic = ForeignKeyField(Topics)
+    approved = BooleanField(default=False)
+
+
+class Teachers(BaseModel):
+    first_name = TextField()
+    last_name = TextField()
+
+
+class Classes(BaseModel):
+    course = ForeignKeyField(Courses)
+    teacher = ForeignKeyField(Teachers)
+    period = IntegerField()
+    approved = BooleanField(default=False)
+
+
+class Work(BaseModel):
+    from_class = ForeignKeyField(Classes)
+    created_on = DateField(default=datetime.datetime.now())
+    due_by = DateField(default=datetime.datetime.now())
+    name = TextField()
+    description = TextField()
+    url = TextField()
+
+
+if not db_exists:
+    print('Database doesn\'t exist, creating now!')
+    db.connect()
+    db.create_tables([Topics, Courses, Teachers, Classes, Work])
+    Topics.create(name='Math', plaintext='math')
+    Topics.create(name='English', plaintext='english')

@@ -8,23 +8,23 @@
     <script src="/static/scripts/assignments.js"></script>
     <div class="main">
         <div class="list-group">
-            {% for i in data %}
-                <div class="card" id="{{ i[4] }}">
+            {% for item in data %}
+                <div class="card" id="{{ item.id }}">
                     <div class="card-body">
                         <h3 class="card-title">
-                            {{ i[0] }}
+                            {{ item.name }}
                         </h3>
                         <h6 class="card-subtitle mb-2 text-muted">
-                            {{ i[1] }}
+                            {{ item.due_by }}
                         </h6>
                         <p class="card-text">
-                            {{ i[2] }}
+                            {{ item.description }}
                         </p>
-                        <a href="{{ i[3] }}" class="card-link">
-                            {{ i[3] }}
+                        <a href="{{ item.url }}" class="card-link">
+                            {{ item.url }}
                         </a>
                         <br>
-                        <button class="btn btn-outline-success btn-block" onclick="done({{ i[4] }})">
+                        <button class="btn btn-outline-success btn-block" onclick="done({{ item.id }})">
                             Done!
                         </button>
                     </div>

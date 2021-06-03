@@ -1,5 +1,10 @@
 from flask import Blueprint, render_template
-from database.sql import db_read
+# from database.sql import db_read
+from database.sql import Topics, Courses, Teachers, Classes
+
+
+def db_read(*args):
+    return 'hey'
 
 
 navigation = Blueprint('navigation', __name__)
@@ -7,31 +12,23 @@ navigation = Blueprint('navigation', __name__)
 
 @navigation.route('/')
 def home():
-    data = db_read('select name, plaintext from topics')
+    data = Topics.select()
     return render_template('navigation/home.html', data=data)
 
 
 @navigation.route('/<topic>')
 def topics(topic):
-    data = db_read(
-        """ select courses.name, t.plaintext, courses.plaintext from courses
-                join topics t on t.id = courses.topic_id
-                where t.plaintext = ? and approved = true;""",
-        [topic]
-    )
+    data = Courses.select().join(Topics).where(Courses.topic.plaintext == topic and Courses.approved)
     print(data)
     return render_template('navigation/topics.html', data=data)
 
 
 @navigation.route('/<topic>/<course>')
 def courses(topic, course):
-    data = db_read(
-        """ select t.first_name, t.last_name, classes.period, classes.id from classes
-                join teachers t on t.id = classes.teacher_id
-                join courses c on c.id = classes.course_id
-                join topics t2 on t2.id = c.topic_id
-                where t2.plaintext = ? and c.plaintext = ? and classes.approved = true;""",
-        [topic, course]
-    )
+    data = (Classes.select()
+            .join(Teachers, on=(Classes.teacher == Teachers.id))
+            .join(Courses, on=(Classes.course == Courses.id))
+            .join(Topics, on=(Courses.topic == Topics.id))
+            .where(Classes.course.topic.plaintext == topic and Classes.course.plaintext == course and Classes.approved))
     print(data)
     return render_template('navigation/courses.html', data=data)

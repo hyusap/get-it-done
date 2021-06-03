@@ -22,8 +22,8 @@
                 </label>
                 <select id="under" name="under" class="form-control">
                     {% for i in data %}
-                        <option value="{{ i[1] }}">
-                            {{ i[0] }}
+                        <option value="{{ i.id }}">
+                            {{ i.name }}
                         </option>
                     {% endfor %}
                     
