@@ -21,7 +21,7 @@ def index():
 
 @app.route('/classes/<class_id>')
 def classes(class_id):
-    data = Work.select().where(Work.class_id == class_id).order_by(Work.due_by)
+    data = Work.select().where(Work.from_class == class_id).order_by(Work.due_by)
     print(data)
     return render_template('navigation/classes.html', data=data)
 

@@ -1,9 +1,13 @@
 from peewee import *
 import datetime
+import os
 
+db_name = 'test.db'
+db_exists = False
+if os.path.exists('database/data/' + db_name):
+    db_exists = True
 
-# db = SqliteDatabase('test.db')
-db = SqliteDatabase('database/test.db')
+db = SqliteDatabase('database/data/' + db_name)
 
 
 class BaseModel(Model):
@@ -44,7 +48,8 @@ class Work(BaseModel):
     url = TextField()
 
 
-if __name__ == '__main__':
+if not db_exists:
+    print('Database doesn\'t exist, creating now!')
     db.connect()
     db.create_tables([Topics, Courses, Teachers, Classes, Work])
     Topics.create(name='Math', plaintext='math')

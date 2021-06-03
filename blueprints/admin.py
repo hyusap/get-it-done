@@ -43,9 +43,9 @@ def topics(topic):
 @admin_only
 def courses(topic, course):
     data = (Classes.select()
-            .join(Teachers)
-            .join(Courses)
-            .join(Topics)
+            .join(Teachers, on=(Classes.teacher == Teachers.id))
+            .join(Courses, on=(Classes.course == Courses.id))
+            .join(Topics, on=(Courses.topic == Topics.id))
             .where(Classes.course.topic.plaintext == topic and Classes.course.plaintext == course))
 
     print(data)
