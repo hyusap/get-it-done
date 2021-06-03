@@ -23,7 +23,7 @@
                     <div class="col-8">
                         <a class="list-group-item list-group-item-action" href="/admin/{{ i.topic.plaintext }}/{{ i.plaintext }}">{{ i.name }}</a>
                     </div>
-                    {% if not i[3] %}
+                    {% if not i.approved %}
                         <div class="col">
                             <a class="btn btn-block btn-outline-success approve-item-button" href="/admin/update/approve/topic/{{ i.id }}/{{ i.topic.plaintext }}">
                                 Approve
